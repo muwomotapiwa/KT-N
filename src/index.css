@@ -10,8 +10,9 @@
   --color-cyan-light: #dcf4f9;
   --color-dark: #152121;
   
-  --font-family-sans: 'Inter', system-ui, sans-serif;
-  --font-family-display: 'Space Grotesk', system-ui, sans-serif;
+  /* Use system fonts to avoid external font downloads (keeps CSP-friendly) */
+  --font-family-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-family-display: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 /* Shooting stars animation */
