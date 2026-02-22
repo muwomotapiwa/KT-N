@@ -329,7 +329,7 @@ export function Layout({ children }: LayoutProps) {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-lg hover:shadow-lg hover:shadow-primary/30 transition-all"
+                  className="px-5 py-3 md:px-6 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-lg hover:shadow-lg hover:shadow-primary/30 transition-all whitespace-nowrap"
                 >
                   Subscribe
                 </button>
