@@ -40,7 +40,6 @@ const corporateImageMeta = [
 
 const corporateImages = corporateImageMeta.map(({ file, category }) => ({
   src: imageImports[`../assets/images/${file}`] ?? '/placeholder.jpg',
-  label: `File: ${file}`,
   category,
 }));
 
@@ -63,7 +62,7 @@ function CorporateImageCard({ image, index, isExpanded }: { image: typeof corpor
       <div className="absolute inset-0 overflow-hidden rounded-2xl">
         <img
           src={image.src}
-          alt={image.label}
+          alt={image.category}
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-125 group-hover:-translate-y-1"
           loading="lazy"
         />
@@ -77,22 +76,6 @@ function CorporateImageCard({ image, index, isExpanded }: { image: typeof corpor
       {/* Category badge */}
       <div className="absolute top-3 left-3 px-2 py-1 bg-primary/20 border border-primary/30 rounded-full backdrop-blur-sm">
         <span className="text-[10px] text-primary font-medium uppercase tracking-wider">{image.category}</span>
-      </div>
-
-      {/* Hover overlay with file label */}
-      <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-transparent opacity-0 group-hover:opacity-100 md:transition-opacity md:duration-300">
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <div className="text-xs text-primary font-mono bg-dark/80 px-3 py-2 rounded-lg border border-primary/30 backdrop-blur-sm">
-            {image.label}
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile: Always visible label */}
-      <div className="md:hidden absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-navy to-transparent">
-        <div className="text-[10px] text-primary font-mono bg-dark/80 px-2 py-1 rounded border border-primary/30 truncate">
-          {image.label}
-        </div>
       </div>
 
       {/* Shine effect on hover */}
