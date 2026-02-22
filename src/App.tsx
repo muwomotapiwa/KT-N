@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
@@ -42,7 +42,7 @@ function ScrollToHash() {
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ScrollToHash />
       <Routes>
         {/* Support Portal - outside Layout */}
@@ -121,12 +121,12 @@ function CloudSubpage() {
           <h1 className="text-4xl sm:text-5xl font-bold font-display text-white mb-6">{data.title}</h1>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10">{data.description}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/consultation" className="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all">
+            <Link to="/consultation" className="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all">
               Get Consultation
-            </a>
-            <a href="/services/cloud-services" className="px-8 py-4 border border-primary/50 text-primary font-semibold rounded-xl hover:bg-primary/10 transition-all">
+            </Link>
+            <Link to="/services/cloud-services" className="px-8 py-4 border border-primary/50 text-primary font-semibold rounded-xl hover:bg-primary/10 transition-all">
               Back to Cloud Services
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -141,12 +141,12 @@ function NotFound() {
       <div className="text-center">
         <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
         <p className="text-xl text-white mb-8">Page not found</p>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all inline-block"
         >
           Back to Home
-        </a>
+        </Link>
       </div>
     </div>
   );
