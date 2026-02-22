@@ -134,6 +134,11 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden; /* prevent accidental sideways scrolling on mobile */
+}
+
+#root {
+  overflow-x: hidden;
 }
 
 /* Neural network lines */
