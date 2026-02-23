@@ -2,6 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
+import legacy from "@vitejs/plugin-legacy";
 import { defineConfig } from "vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
 
@@ -12,7 +13,23 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   // GitHub Pages serves the project from /KT-N/, so set the base for correct asset URLs
   base: "/KT-N/",
-  plugins: [react(), tailwindcss(), viteSingleFile()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    legacy({
+      targets: [
+        "defaults",
+        "safari >= 11",
+        "ios_saf >= 11",
+        "chrome >= 49",
+        "edge >= 18",
+        "firefox >= 60",
+        "samsung >= 4",
+      ],
+      modernPolyfills: true,
+    }),
+    viteSingleFile(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
