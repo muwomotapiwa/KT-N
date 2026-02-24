@@ -75,7 +75,7 @@ const projects: Project[] = [
     category: 'Cloud & DevOps',
     description: 'Lift-and-evolve of a legacy ERP to Azure with IaC, blue/green deploys, and cost observability baked in.',
     image: b2bLeadImage,
-    technologies: ['Azure', 'Terraform', 'GitHub Actions', 'PostgreSQL', 'Feature Flags'],
+    technologies: ['Azure', 'Terraform', 'CI/CD pipelines', 'PostgreSQL', 'Feature Flags'],
     outcome: '35% infrastructure cost optimized',
     year: '2024',
     link: '#',

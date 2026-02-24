@@ -154,7 +154,7 @@ const capabilityColumns = [
     icon: Cloud,
     items: [
       'Cloud: AWS, Azure, GCP; containerized delivery with Docker/Kubernetes',
-      'Infrastructure as code: Terraform and GitHub Actions pipelines',
+      'Infrastructure as code: Terraform and CI/CD pipelines',
       'Observability: logging, metrics, tracing, SLOs, on-call playbooks',
       'Environments built for feature flags and safe releases',
     ],

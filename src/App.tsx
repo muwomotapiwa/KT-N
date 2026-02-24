@@ -43,7 +43,6 @@ function ScrollToHash() {
 }
 
 export function App() {
-  // Detect whether the app is being served from /KT-N (GitHub Pages project site) or the root (local dev/preview)
   const detectedBase =
     typeof window !== 'undefined' && window.location.pathname.startsWith('/KT-N')
       ? '/KT-N'
