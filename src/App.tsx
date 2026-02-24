@@ -21,6 +21,8 @@ import { Assessment } from './pages/Assessment';
 import { ThankYou } from './pages/ThankYou';
 import SupportPortal from './pages/SupportPortal';
 import AdminPortal from './pages/AdminPortal';
+import { Privacy } from './pages/Privacy';
+import { Terms } from './pages/Terms';
 
 // Scroll to hash on navigation
 function ScrollToHash() {
@@ -67,6 +69,8 @@ export function App() {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/thank-you" element={<ThankYou />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
               
               {/* Lead Gen Pages */}
               <Route path="/consultation" element={<Consultation />} />

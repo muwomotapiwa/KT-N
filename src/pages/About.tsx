@@ -1,7 +1,28 @@
 import { Link } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Building, Target, Eye, Heart, Lightbulb, Shield, Users, Star, Award, CheckCircle, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  Building,
+  Sparkles,
+  Handshake,
+  LineChart,
+  Target,
+  ShieldCheck,
+  Cpu,
+  Cloud,
+  Layers,
+  Lock,
+  Users,
+  Award,
+  Rocket,
+  Quote,
+  Globe2,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { AboutBackground } from '../components/AboutBackground';
 
 // Eagerly import all brand assets and map them to categories
 const imageImports = import.meta.glob('../assets/images/*.{jpeg,jpg,png}', {
@@ -43,6 +64,146 @@ const corporateImages = corporateImageMeta.map(({ file, category }) => ({
   category,
 }));
 
+const stats = [
+  { value: '100+', label: 'Projects Delivered' },
+  { value: '50+', label: 'Clients Partnered' },
+  { value: '5+', label: 'Years Shipping' },
+  { value: '24/7', label: 'Support Window' },
+];
+
+const audience = [
+  {
+    title: 'Growth-stage and SaaS teams',
+    detail: 'Ship faster without ballooning headcount. We embed senior builders who own outcomes.',
+  },
+  {
+    title: 'Enterprise innovation and ops',
+    detail: 'Modernize core workflows with cloud, data, and AI while respecting governance and risk.',
+  },
+  {
+    title: 'SMEs with bold bets',
+    detail: 'Stand up new products quickly, then harden for scale with observability, QA, and support.',
+  },
+];
+
+const industries = ['FinTech', 'Healthcare', 'Retail & CPG', 'Manufacturing', 'Education', 'Public sector'];
+
+const originStory = [
+  {
+    year: 'Started',
+    text: 'Kypex-Tech was born when a small delivery pod kept being asked to "fix the bottleneck" for ops teams drowning in manual work.',
+  },
+  {
+    year: 'Focus',
+    text: 'We leaned into AI, data, and cloud to replace legacy queues with automated, auditable workflows that teams could trust.',
+  },
+  {
+    year: 'Today',
+    text: 'We exist to be the accountable partner enterprises and scaleups call when the project is complex, regulated, or on a deadline.',
+  },
+];
+
+const caseStudies = [
+  {
+    title: 'Risk Ops Automation',
+    industry: 'FinTech',
+    result: '-35% manual review time',
+    description: 'Rebuilt decisioning pipeline with workflow orchestration, ML assists, and audit-ready logging.',
+    tech: ['React', 'Node', 'PostgreSQL', 'AWS', 'LangChain'],
+  },
+  {
+    title: 'Patient Access Experience',
+    industry: 'Healthcare',
+    result: '+32% self-service bookings',
+    description: 'Unified scheduling, messaging, and triage across clinics with privacy-first architecture.',
+    tech: ['Next.js', 'Supabase', 'Twilio', 'Vercel', 'Accessibility'],
+  },
+  {
+    title: 'Supply Chain Visibility',
+    industry: 'Retail',
+    result: '99.9% uptime during peak',
+    description: 'Live inventory plus alerting across warehouses with SLOs, observability, and on-call runbooks.',
+    tech: ['React', 'Python', 'Kafka', 'GCP', 'Looker'],
+  },
+];
+
+type Step = { title: string; description: string; icon: LucideIcon };
+
+const processSteps: Step[] = [
+  { title: 'Discover', description: 'Goal alignment, current-state walkthroughs, success metrics, and risk map.', icon: Target },
+  { title: 'Architecture', description: 'Solution blueprint, data flows, security controls, and delivery plan.', icon: Layers },
+  { title: 'Build', description: 'Agile sprints with weekly demos, transparent backlog, and paired ownership.', icon: Cpu },
+  { title: 'Test', description: 'Automated checks, performance runs, and security gates before release.', icon: ShieldCheck },
+  { title: 'Launch', description: 'Cutover plan, playbooks, training, and support readiness.', icon: Rocket },
+  { title: 'Optimize', description: 'Post-launch measurement, A/Bs, and iterative tuning against KPIs.', icon: LineChart },
+];
+
+const capabilityColumns = [
+  {
+    title: 'Tech Stack Depth',
+    icon: Cpu,
+    items: [
+      'Frontend: React, Next.js, Vite, Tailwind',
+      'Backend: Node/NestJS, Python/FastAPI, event-driven patterns',
+      'Data and AI: LangChain, vector search (pgvector/Supabase), analytics (dbt, Postgres, BigQuery, ClickHouse)',
+      'Integrations: Stripe, HubSpot, Salesforce, Twilio, Slack, Microsoft 365',
+    ],
+  },
+  {
+    title: 'Cloud and DevOps',
+    icon: Cloud,
+    items: [
+      'Cloud: AWS, Azure, GCP; containerized delivery with Docker/Kubernetes',
+      'Infrastructure as code: Terraform and GitHub Actions pipelines',
+      'Observability: logging, metrics, tracing, SLOs, on-call playbooks',
+      'Environments built for feature flags and safe releases',
+    ],
+  },
+  {
+    title: 'Security and Quality',
+    icon: Lock,
+    items: [
+      'Identity and access: SSO/OIDC, RBAC, audit trails',
+      'Compliance-friendly patterns: SOC 2-style controls, HIPAA-aware data handling, GDPR basics',
+      'Automated testing: unit, integration, accessibility, performance',
+      'Privacy-by-design reviews on every engagement',
+    ],
+  },
+];
+
+const team = [
+  {
+    title: 'Core Leadership',
+    role: 'Delivery Lead plus Solution Architect on every project',
+    detail: 'One accountable owner for outcomes, paired with a senior architect to de-risk decisions early.',
+  },
+  {
+    title: 'Advisors and SMEs',
+    role: 'Security, data, and product specialists',
+    detail: 'Pulled in for architecture reviews, compliance questions, and scale checkpoints.',
+  },
+  {
+    title: 'Dedicated Pod',
+    role: 'Design / Engineering / QA',
+    detail: 'On-shore and near-shore teammates who work in your tools and timezone.',
+  },
+];
+
+const testimonials = [
+  {
+    quote: 'They behaved like an extension of our product team - weekly demos, honest trade-offs, and shipped the hard stuff first.',
+    name: 'Ops Director, Logistics Platform',
+  },
+  {
+    quote: 'Security and compliance were never afterthoughts; they documented every decision so our audit passed smoothly.',
+    name: 'VP Technology, Healthcare Network',
+  },
+  {
+    quote: 'We finally have a roadmap tied to outcomes, not hours. They owned the metric and hit it.',
+    name: 'Founder, B2B SaaS',
+  },
+];
+
 // Corporate Image Card Component
 function CorporateImageCard({ image, index, isExpanded }: { image: typeof corporateImages[0]; index: number; isExpanded: boolean }) {
   return (
@@ -50,15 +211,14 @@ function CorporateImageCard({ image, index, isExpanded }: { image: typeof corpor
       initial={{ opacity: 0, y: 30, scale: 0.98, rotateX: 2 }}
       animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
       exit={{ opacity: 0, y: -20, scale: 0.98 }}
-      transition={{ 
-        duration: 0.5, 
+      transition={{
+        duration: 0.5,
         delay: isExpanded ? index * 0.03 : index * 0.08,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: [0.25, 0.46, 0.45, 0.94],
       }}
       className="group relative aspect-square overflow-hidden rounded-2xl bg-navy-light border border-primary/10 cursor-pointer shadow-md shadow-black/20"
       whileHover={{ scale: 1.08, zIndex: 10 }}
     >
-      {/* Brand image */}
       <div className="absolute inset-0 overflow-hidden rounded-2xl">
         <img
           src={image.src}
@@ -73,202 +233,214 @@ function CorporateImageCard({ image, index, isExpanded }: { image: typeof corpor
         </div>
       </div>
 
-      {/* Category badge */}
       <div className="absolute top-3 left-3 px-2 py-1 bg-primary/20 border border-primary/30 rounded-full backdrop-blur-sm">
         <span className="text-[10px] text-primary font-medium uppercase tracking-wider">{image.category}</span>
       </div>
 
-      {/* Shine effect on hover */}
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     </motion.div>
   );
 }
-
-const values = [
-  { icon: Lightbulb, title: 'Innovation', description: 'We embrace cutting-edge technologies and creative solutions to solve complex challenges.' },
-  { icon: Shield, title: 'Transparency', description: 'Open communication and honest relationships form the foundation of our partnerships.' },
-  { icon: Users, title: 'Customer Focus', description: 'Your success is our success. We prioritize understanding and exceeding your expectations.' },
-  { icon: Star, title: 'Excellence', description: 'We strive for excellence in everything we do, from code quality to customer service.' },
-];
-
-const differentiators = [
-  'End-to-end project ownership and accountability',
-  'Agile methodology with transparent progress tracking',
-  'Dedicated project managers for every engagement',
-  'Post-launch support and continuous improvement',
-  'Industry-specific expertise across multiple sectors',
-  'Competitive pricing without compromising quality',
-];
 
 export function About() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero */}
       <section className="relative py-24 bg-gradient-to-br from-navy via-navy-light to-navy overflow-hidden">
+        <AboutBackground />
         <div className="absolute inset-0">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-blue/10 rounded-full blur-3xl" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
               <Building className="w-4 h-4 text-primary" />
-              <span className="text-primary text-sm font-medium">About Us</span>
+              <span className="text-primary text-sm font-medium">About Kypex-Tech</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold font-display text-white mb-6">
-              Driving Digital <span className="text-primary">Transformation</span>
+              Proven Partners for <span className="text-primary">Growth-Stage</span> and <span className="text-primary">Enterprise</span> Teams
             </h1>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Kypex-Tech Solutions is a leading technology company dedicated to helping businesses thrive in the digital age through innovative IT solutions and exceptional service.
+              We help operations, product, and technology leaders modernize with AI, cloud, and automation - owning delivery, de-risking complexity, and shipping measurable outcomes.
             </p>
+
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to="/consultation"
+                className="group px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:scale-105 flex items-center gap-2"
+              >
+                Book a Strategy Call
+                <Sparkles className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                to="/portfolio"
+                className="px-8 py-4 border border-primary/50 text-primary font-semibold rounded-xl hover:bg-primary/10 transition-all duration-300"
+              >
+                View Our Work
+              </Link>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6"
+            >
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 + index * 0.05 }}
+                  className="glass rounded-xl p-6 border border-primary/20 hover:border-primary/50 transition-colors"
+                >
+                  <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stat.value}</div>
+                  <div className="text-gray-400 text-sm">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </section>
-
-      {/* Mission & Vision */}
+      {/* Process */}
       <section className="py-24 bg-dark">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="p-8 bg-navy-light/50 border border-primary/10 rounded-2xl"
-            >
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center mb-6">
-                <Target className="w-7 h-7 text-navy" />
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-4">Our Mission</h2>
-              <p className="text-gray-400">
-                To empower businesses with innovative technology solutions that drive growth, efficiency, and competitive advantage. We are committed to delivering exceptional value through cutting-edge IT services, strategic consulting, and unwavering customer focus.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="p-8 bg-navy-light/50 border border-primary/10 rounded-2xl"
-            >
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue to-blue-light flex items-center justify-center mb-6">
-                <Eye className="w-7 h-7 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-4">Our Vision</h2>
-              <p className="text-gray-400">
-                To be the most trusted technology partner for businesses seeking digital transformation. We envision a future where every organization, regardless of size, has access to world-class IT solutions that unlock their full potential.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-24 bg-navy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
-              <Heart className="w-4 h-4 text-primary" />
-              <span className="text-primary text-sm font-medium">Our Values</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-4">
+              <WorkflowIcon />
+              <span className="text-primary text-sm font-medium">Predictable Delivery</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-6">
-              What Drives <span className="text-primary">Us</span>
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-4">How We Work</h2>
+            <p className="text-gray-300 max-w-3xl mx-auto">Transparent, outcome-driven, and designed to reduce buyer risk.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {processSteps.map((step, idx) => (
               <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 30 }}
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center p-8 bg-navy-light/50 border border-primary/10 rounded-2xl hover:border-primary/50 transition-colors"
+                transition={{ delay: idx * 0.03 }}
+                className="p-6 rounded-2xl bg-navy-light/50 border border-primary/15 hover:border-primary/40 transition-colors"
               >
-                <div className="w-16 h-16 mx-auto rounded-xl bg-gradient-to-br from-primary/20 to-blue/20 flex items-center justify-center mb-6">
-                  <value.icon className="w-8 h-8 text-primary" />
+                <div className="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary mb-4">
+                  <step.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">{value.title}</h3>
-                <p className="text-gray-400 text-sm">{value.description}</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2 py-0.5 text-[11px] rounded-full bg-primary/10 border border-primary/20 text-primary font-semibold">Step {idx + 1}</span>
+                  {idx === processSteps.length - 1 && <span className="text-xs text-green-300">Continuous</span>}
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{step.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* What Sets Us Apart */}
+      {/* Technical Authority */}
+      <section className="py-24 bg-navy">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-4">
+              <ShieldCheck className="w-4 h-4 text-primary" />
+              <span className="text-primary text-sm font-medium">Technical Authority</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-4">Depth that enterprise buyers expect</h2>
+            <p className="text-gray-300 max-w-3xl mx-auto">
+              We pair senior builders with the controls, observability, and delivery cadence required in regulated, mission-critical environments.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {capabilityColumns.map((col) => (
+              <motion.div
+                key={col.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="p-7 rounded-2xl bg-navy-light/60 border border-primary/15 hover:border-primary/40 transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary">
+                    <col.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white">{col.title}</h3>
+                </div>
+                <ul className="space-y-3">
+                  {col.items.map((item) => (
+                    <li key={item} className="flex gap-2 text-gray-300 text-sm">
+                      <CheckCircle className="w-4 h-4 text-primary mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team & Testimonials */}
       <section className="py-24 bg-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
-                <Award className="w-4 h-4 text-primary" />
-                <span className="text-primary text-sm font-medium">Why Choose Us</span>
+          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-4">
+                <Users className="w-4 h-4 text-primary" />
+                <span className="text-primary text-sm font-medium">Team</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-6">
-                What Sets Us <span className="text-primary">Apart</span>
-              </h2>
-              <p className="text-gray-400 mb-8">
-                We combine deep technical expertise with a genuine commitment to your success. Our team doesn't just deliver projects – we build lasting partnerships.
-              </p>
-              <ul className="space-y-4">
-                {differentiators.map((item, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-3"
-                  >
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-gray-300">{item}</span>
-                  </motion.li>
+              <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-4">People you will meet</h2>
+              <p className="text-gray-300 mb-8">Even a small, visible team reduces perceived risk. Here are the roles you work with from day one.</p>
+              <div className="space-y-4">
+                {team.map((member) => (
+                  <div key={member.title} className="p-5 rounded-2xl bg-navy-light/50 border border-primary/15">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="px-2 py-0.5 text-[11px] rounded-full bg-primary/10 border border-primary/20 text-primary font-semibold">
+                        {member.title}
+                      </span>
+                    </div>
+                    <p className="text-white font-semibold">{member.role}</p>
+                    <p className="text-gray-300 text-sm">{member.detail}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-4">
-                  <div className="p-6 bg-navy-light border border-primary/20 rounded-2xl">
-                    <div className="text-4xl font-bold text-primary mb-2">100+</div>
-                    <div className="text-gray-400">Projects Delivered</div>
-                  </div>
-                  <div className="p-6 bg-navy-light border border-primary/20 rounded-2xl">
-                    <div className="text-4xl font-bold text-primary mb-2">5+</div>
-                    <div className="text-gray-400">Years Experience</div>
-                  </div>
-                </div>
-                <div className="space-y-4 pt-8">
-                  <div className="p-6 bg-navy-light border border-primary/20 rounded-2xl">
-                    <div className="text-4xl font-bold text-primary mb-2">50+</div>
-                    <div className="text-gray-400">Happy Clients</div>
-                  </div>
-                  <div className="p-6 bg-navy-light border border-primary/20 rounded-2xl">
-                    <div className="text-4xl font-bold text-primary mb-2">24/7</div>
-                    <div className="text-gray-400">Support Available</div>
-                  </div>
-                </div>
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-4">
+                <Quote className="w-4 h-4 text-primary" />
+                <span className="text-primary text-sm font-medium">Testimonials</span>
+              </div>
+              <h2 className="text-3xl font-bold text-white mb-4">Social proof, upfront</h2>
+              <p className="text-gray-300 mb-6">A few words from leaders who trusted us with high-stakes work.</p>
+              <div className="space-y-4">
+                {testimonials.map((item, idx) => (
+                  <motion.div
+                    key={item.quote}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="p-5 rounded-2xl bg-navy-light/50 border border-primary/15"
+                  >
+                    <p className="text-gray-100 leading-relaxed">"{item.quote}"</p>
+                    <p className="text-primary text-sm font-semibold mt-3">{item.name}</p>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -281,23 +453,25 @@ export function About() {
       {/* CTA */}
       <section className="py-24 bg-gradient-to-br from-navy-light to-dark">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-6">
-              Ready to Work <span className="text-primary">Together</span>?
-            </h2>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-6">Ready to Reduce Risk and Ship Faster?</h2>
             <p className="text-gray-300 mb-10">
-              Let's discuss how we can help transform your business with innovative IT solutions.
+              Let's map the quickest path to value for your team - strategy first, then delivery with accountability.
             </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:scale-105"
-            >
-              Get in Touch
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to="/consultation"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:scale-105"
+              >
+                Book a Strategy Call
+              </Link>
+              <Link
+                to="/portfolio"
+                className="px-8 py-4 border border-primary/50 text-primary font-semibold rounded-xl hover:bg-primary/10 transition-all duration-300"
+              >
+                View Our Work
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -305,108 +479,77 @@ export function About() {
   );
 }
 
+// Simple workflow icon helper
+function WorkflowIcon() {
+  return (
+    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M7 7h4v4H7V7ZM13 13h4v4h-4v-4ZM7 13h2v-2h2m6 0h-2v2h-2M5 9H3m4 6H3m14-6h2m-2 6h2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 // Corporate Identity Collection Section Component
 function CorporateIdentitySection() {
   const [isExpanded, setIsExpanded] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+
   const visibleImages = isExpanded ? corporateImages : corporateImages.slice(0, 6);
 
   const handleToggle = () => {
     if (isExpanded) {
-      // Scroll to section header when collapsing
       sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     setIsExpanded(!isExpanded);
   };
 
   return (
-    <section 
-      ref={sectionRef}
-      className="relative py-24 bg-navy overflow-hidden"
-    >
-      {/* Animated Background Gradient Blobs */}
+    <section ref={sectionRef} className="relative py-24 bg-navy overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Floating gradient blob 1 */}
         <motion.div
           className="absolute w-[500px] h-[500px] rounded-full opacity-[0.07]"
-          style={{
-            background: 'radial-gradient(circle, #34d9b9 0%, transparent 70%)',
-            top: '10%',
-            left: '-10%',
-          }}
-          animate={{
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          style={{ background: 'radial-gradient(circle, #34d9b9 0%, transparent 70%)', top: '10%', left: '-10%' }}
+          animate={{ x: [0, 50, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
         />
-        
-        {/* Floating gradient blob 2 */}
+
         <motion.div
           className="absolute w-[400px] h-[400px] rounded-full opacity-[0.05]"
-          style={{
-            background: 'radial-gradient(circle, #0578ac 0%, transparent 70%)',
-            bottom: '20%',
-            right: '-5%',
-          }}
-          animate={{
-            x: [0, -40, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.15, 1],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          style={{ background: 'radial-gradient(circle, #0578ac 0%, transparent 70%)', bottom: '20%', right: '-5%' }}
+          animate={{ x: [0, -40, 0], y: [0, -50, 0], scale: [1, 1.15, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        {/* Floating gradient blob 3 */}
         <motion.div
           className="absolute w-[300px] h-[300px] rounded-full opacity-[0.04]"
-          style={{
-            background: 'radial-gradient(circle, #04a9b0 0%, transparent 70%)',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          animate={{
-            x: [0, 30, -30, 0],
-            y: [0, -20, 20, 0],
-            scale: [1, 1.2, 0.9, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          style={{ background: 'radial-gradient(circle, #04a9b0 0%, transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+          animate={{ x: [0, 30, -30, 0], y: [0, -20, 20, 0], scale: [1, 1.2, 0.9, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        {/* Subtle noise overlay */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02]"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
           }}
         />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header with Cinematic Reveal */}
         <motion.div
           initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
           animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-16"
         >
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -415,8 +558,8 @@ function CorporateIdentitySection() {
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-primary text-sm font-medium">Brand Identity</span>
           </motion.div>
-          
-          <motion.h2 
+
+          <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3 }}
@@ -424,19 +567,17 @@ function CorporateIdentitySection() {
           >
             Corporate Identity <span className="text-primary">Collection</span>
           </motion.h2>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
             className="text-gray-400 max-w-3xl mx-auto text-lg"
           >
-            A curated showcase of our branded corporate apparel, executive gifts, and tech lifestyle 
-            merchandise that represent the Kypex-Tech identity.
+            A curated showcase of our branded corporate apparel, executive gifts, and tech lifestyle merchandise that represent the Kypex-Tech identity.
           </motion.p>
         </motion.div>
 
-        {/* Image Grid with Staggered Reveal */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -446,17 +587,11 @@ function CorporateIdentitySection() {
         >
           <AnimatePresence mode="popLayout">
             {visibleImages.map((image, index) => (
-              <CorporateImageCard 
-                key={`${image.label}-${index}`}
-                image={image}
-                index={index}
-                isExpanded={isExpanded}
-              />
+              <CorporateImageCard key={`${image.src}-${index}`} image={image} index={index} isExpanded={isExpanded} />
             ))}
           </AnimatePresence>
         </motion.div>
 
-        {/* Expand/Collapse Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -470,25 +605,15 @@ function CorporateIdentitySection() {
             whileTap={{ scale: 0.98 }}
           >
             <span>{isExpanded ? 'Collapse Collection' : 'View Full Collection'}</span>
-            <motion.span
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isExpanded ? (
-                <ChevronUp className="w-5 h-5 text-primary" />
-              ) : (
-                <ChevronDown className="w-5 h-5 text-primary" />
-              )}
+            <motion.span animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
+              {isExpanded ? <ChevronUp className="w-5 h-5 text-primary" /> : <ChevronDown className="w-5 h-5 text-primary" />}
             </motion.span>
-            
-            {/* Item count badge */}
             <span className="px-2 py-0.5 bg-primary/20 text-primary text-xs rounded-full">
               {isExpanded ? `${corporateImages.length} items` : `+${corporateImages.length - 6} more`}
             </span>
           </motion.button>
         </motion.div>
 
-        {/* Category Legend */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -506,3 +631,125 @@ function CorporateIdentitySection() {
     </section>
   );
 }
+
+      {/* Story & Fit */}
+      <section className="py-24 bg-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="p-8 rounded-2xl bg-navy-light/50 border border-primary/10"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full mb-4">
+                <Handshake className="w-4 h-4 text-primary" />
+                <span className="text-primary text-xs font-semibold uppercase tracking-wide">Our Story</span>
+              </div>
+              <h2 className="text-3xl font-bold text-white mb-4">Built by people who felt the pain first</h2>
+              <p className="text-gray-300 mb-6">
+                We started as operators fixing real bottlenecks - then became the team other leaders call when they need accountable builders who
+                understand scale, risk, and time-to-value.
+              </p>
+              <div className="space-y-4">
+                {originStory.map((item) => (
+                  <div key={item.year} className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center text-primary font-semibold">
+                      {item.year}
+                    </div>
+                    <p className="text-gray-300 leading-relaxed">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="p-8 rounded-2xl bg-navy-light/50 border border-primary/10"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full mb-4">
+                <Target className="w-4 h-4 text-primary" />
+                <span className="text-primary text-xs font-semibold uppercase tracking-wide">Who We Serve</span>
+              </div>
+              <h2 className="text-3xl font-bold text-white mb-4">We specialize so you convert</h2>
+              <p className="text-gray-300 mb-6">
+                B2B buyers need confidence you know their world. We focus on teams where reliability, compliance, and measurable outcomes matter most.
+              </p>
+              <div className="space-y-4">
+                {audience.map((item) => (
+                  <div key={item.title} className="flex gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="text-white font-semibold">{item.title}</p>
+                      <p className="text-gray-400 text-sm">{item.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6">
+                <span className="text-gray-400 text-sm">Industries delivered in:</span>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {industries.map((industry) => (
+                    <span
+                      key={industry}
+                      className="px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm flex items-center gap-2"
+                    >
+                      <Globe2 className="w-4 h-4" />
+                      {industry}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies */}
+      <section className="py-24 bg-navy">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-4">
+              <Award className="w-4 h-4 text-primary" />
+              <span className="text-primary text-sm font-medium">Proof, not promises</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-4">Recent Wins</h2>
+            <p className="text-gray-300 max-w-3xl mx-auto">Real engagements, clear outcomes. Two snippets beat a hundred claims.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {caseStudies.map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05 }}
+                className="p-6 rounded-2xl bg-navy-light/60 border border-primary/15 hover:border-primary/40 transition-colors"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="px-3 py-1 text-xs rounded-full bg-primary/15 border border-primary/30 text-primary">{item.industry}</span>
+                  <span className="text-sm font-semibold text-primary">{item.result}</span>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">{item.title}</h3>
+                <p className="text-gray-300 text-sm mb-4">{item.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {item.tech.map((tech) => (
+                    <span key={tech} className="px-2 py-1 rounded-lg bg-dark/60 border border-primary/15 text-xs text-gray-300">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>

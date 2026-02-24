@@ -1,4 +1,5 @@
-import { useState, BaseSyntheticEvent } from 'react';
+import { useState, BaseSyntheticEvent, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Cloud, Users, Smartphone, BarChart, Clock } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -6,6 +7,7 @@ import { useForm } from 'react-hook-form';
 interface FormData {
   name: string;
   email: string;
+  phone: string;
   service: string;
   preferredDate: string;
   preferredTime: string;
@@ -21,7 +23,8 @@ const services = [
 
 export function Consultation() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
+  const location = useLocation();
   const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/thank-you` : '/thank-you';
 
   const onSubmit = (_data: FormData, event?: BaseSyntheticEvent) => {
@@ -33,6 +36,13 @@ export function Consultation() {
       setIsSubmitting(false);
     }
   };
+
+  // Prepopulate from query params (e.g., service from contact cards)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const service = params.get('service');
+    if (service) setValue('service', service);
+  }, [location.search, setValue]);
 
   return (
     <div className="min-h-screen pt-20">
@@ -116,6 +126,16 @@ export function Consultation() {
                   placeholder="john@example.com"
                 />
                 {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Phone *</label>
+                <input
+                  type="tel"
+                  {...register('phone', { required: 'Phone is required' })}
+                  className="w-full px-4 py-3 bg-navy border border-primary/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
+                  placeholder="+1 555 123 4567"
+                />
+                {errors.phone && <p className="mt-1 text-sm text-red-400">{errors.phone.message}</p>}
               </div>
             </div>
 

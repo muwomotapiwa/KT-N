@@ -18,6 +18,8 @@ const navLinks = [
 
 const contactLinks = [
   { name: 'Contact Us', path: '/contact' },
+  { name: 'Privacy Policy', path: '/privacy' },
+  { name: 'Terms of Service', path: '/terms' },
 ];
 
 const serviceLinks = [
@@ -195,9 +197,9 @@ export function Layout({ children }: LayoutProps) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-navy-light/95 backdrop-blur-lg border-t border-primary/20"
+              className="lg:hidden bg-navy-light/95 backdrop-blur-lg border-t border-primary/20 max-h-[82vh] overflow-y-auto"
             >
-              <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
+              <div className="max-w-7xl mx-auto px-4 py-4 space-y-2 pb-20">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
@@ -289,6 +291,8 @@ export function Layout({ children }: LayoutProps) {
                 <li><Link to="/project-start" className="text-gray-400 hover:text-primary text-sm transition-colors">Start a Project</Link></li>
                 <li><Link to="/portfolio" className="text-gray-400 hover:text-primary text-sm transition-colors">Our Work</Link></li>
                 <li><Link to="/about" className="text-gray-400 hover:text-primary text-sm transition-colors">About Us</Link></li>
+                <li><Link to="/privacy" className="text-gray-400 hover:text-primary text-sm transition-colors">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="text-gray-400 hover:text-primary text-sm transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
 
