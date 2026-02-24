@@ -225,6 +225,18 @@ export function Layout({ children }: LayoutProps) {
                   <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Support</p>
                   <p className="px-4 py-2 text-sm text-gray-500">Coming soon</p>
                 </div>
+                <div className="border-t border-primary/20 pt-2 mt-2">
+                  <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Policies</p>
+                  {contactLinks.slice(1).map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className="block px-4 py-2 text-sm text-gray-400 hover:text-primary transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
                 <Link
                   to="/consultation"
                   className="block text-center mt-4 px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-lg"
