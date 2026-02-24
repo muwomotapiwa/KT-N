@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import { AISolutioning } from './pages/AISolutioning';
@@ -14,7 +14,6 @@ import { GenericService } from './pages/services/GenericService';
 import { Consultation } from './pages/Consultation';
 import { Contact } from './pages/Contact';
 import { Portfolio } from './pages/Portfolio';
-import { About } from './pages/About';
 import { QuoteCalculator } from './pages/QuoteCalculator';
 import { ProjectStart } from './pages/ProjectStart';
 import { Assessment } from './pages/Assessment';
@@ -23,6 +22,8 @@ import SupportPortal from './pages/SupportPortal';
 import AdminPortal from './pages/AdminPortal';
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
+
+const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
 
 // Scroll to hash on navigation
 function ScrollToHash() {
@@ -60,43 +61,53 @@ export function App() {
         {/* All other routes with Layout */}
         <Route path="/*" element={
           <Layout>
-            <Routes>
-              {/* Main Pages */}
-              <Route path="/" element={<Home />} />
-              <Route path="/ai-solutioning" element={<AISolutioning />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/thank-you" element={<ThankYou />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              
-              {/* Lead Gen Pages */}
-              <Route path="/consultation" element={<Consultation />} />
-              <Route path="/project-start" element={<ProjectStart />} />
-              <Route path="/assessment" element={<Assessment />} />
-              
-              {/* Service Pages */}
-              <Route path="/services/website-development" element={<WebsiteDevelopment />} />
-              <Route path="/services/mobile-app-development" element={<MobileAppDevelopment />} />
-              <Route path="/services/cloud-services" element={<CloudServices />} />
-              <Route path="/services/cloud-services/crm" element={<CloudCRM />} />
-              <Route path="/services/cloud-services/:subpage" element={<CloudSubpage />} />
-              <Route path="/services/cybersecurity" element={<Cybersecurity />} />
-              <Route path="/services/it-consulting" element={<ITConsulting />} />
-              <Route path="/services/data-analytics" element={<DataAnalytics />} />
-              <Route path="/services/:serviceId" element={<GenericService />} />
-              
-              {/* Quote Calculator */}
-              <Route path="/quote/:country" element={<QuoteCalculator />} />
-              
-              {/* Catch all - 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                {/* Main Pages */}
+                <Route path="/" element={<Home />} />
+                <Route path="/ai-solutioning" element={<AISolutioning />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/thank-you" element={<ThankYou />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                
+                {/* Lead Gen Pages */}
+                <Route path="/consultation" element={<Consultation />} />
+                <Route path="/project-start" element={<ProjectStart />} />
+                <Route path="/assessment" element={<Assessment />} />
+                
+                {/* Service Pages */}
+                <Route path="/services/website-development" element={<WebsiteDevelopment />} />
+                <Route path="/services/mobile-app-development" element={<MobileAppDevelopment />} />
+                <Route path="/services/cloud-services" element={<CloudServices />} />
+                <Route path="/services/cloud-services/crm" element={<CloudCRM />} />
+                <Route path="/services/cloud-services/:subpage" element={<CloudSubpage />} />
+                <Route path="/services/cybersecurity" element={<Cybersecurity />} />
+                <Route path="/services/it-consulting" element={<ITConsulting />} />
+                <Route path="/services/data-analytics" element={<DataAnalytics />} />
+                <Route path="/services/:serviceId" element={<GenericService />} />
+                
+                {/* Quote Calculator */}
+                <Route path="/quote/:country" element={<QuoteCalculator />} />
+                
+                {/* Catch all - 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </Layout>
         } />
       </Routes>
     </BrowserRouter>
+  );
+}
+
+function PageLoader() {
+  return (
+    <div className="min-h-[50vh] flex items-center justify-center">
+      <div className="h-10 w-10 rounded-full border-4 border-primary/40 border-t-primary animate-spin" />
+    </div>
   );
 }
 

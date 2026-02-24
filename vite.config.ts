@@ -4,7 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import legacy from "@vitejs/plugin-legacy";
 import { defineConfig } from "vite";
-import { viteSingleFile } from "vite-plugin-singlefile";
 import { obfuscator } from "rollup-obfuscator";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,7 +31,6 @@ export default defineConfig(({ command }) => {
         ],
         modernPolyfills: true,
       }),
-      viteSingleFile(),
       // Obfuscate bundles only during production builds
       isBuild &&
         obfuscator({
