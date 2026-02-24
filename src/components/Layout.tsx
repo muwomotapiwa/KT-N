@@ -54,6 +54,13 @@ export function Layout({ children }: LayoutProps) {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -190,64 +197,66 @@ export function Layout({ children }: LayoutProps) {
           </div>
         </nav>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-navy-light/95 backdrop-blur-lg border-t border-primary/20 max-h-[82vh] overflow-y-auto"
-            >
-              <div className="max-w-7xl mx-auto px-4 py-4 space-y-2 pb-20">
-                {navLinks.map((link) => (
+      </motion.header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="lg:hidden fixed inset-x-0 top-20 bottom-0 bg-navy-light/95 backdrop-blur-lg border-t border-primary/20 overflow-y-auto overscroll-contain touch-pan-y z-[60]"
+          >
+            <div className="max-w-7xl mx-auto px-4 py-4 space-y-2 pb-24">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className="block px-4 py-3 rounded-lg text-gray-300 hover:text-primary hover:bg-primary/10 transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <div className="border-t border-primary/20 pt-2 mt-2">
+                <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Services</p>
+                {serviceLinks.map((service) => (
                   <Link
-                    key={link.name}
+                    key={service.path}
+                    to={service.path}
+                    className="block px-4 py-2 text-sm text-gray-400 hover:text-primary transition-colors"
+                  >
+                    {service.name}
+                  </Link>
+                ))}
+              </div>
+              <div className="border-t border-primary/20 pt-2 mt-2">
+                <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Support</p>
+                <p className="px-4 py-2 text-sm text-gray-500">Coming soon</p>
+              </div>
+              <div className="border-t border-primary/20 pt-2 mt-2">
+                <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Policies</p>
+                {contactLinks.slice(1).map((link) => (
+                  <Link
+                    key={link.path}
                     to={link.path}
-                    className="block px-4 py-3 rounded-lg text-gray-300 hover:text-primary hover:bg-primary/10 transition-colors"
+                    className="block px-4 py-2 text-sm text-gray-400 hover:text-primary transition-colors"
                   >
                     {link.name}
                   </Link>
                 ))}
-                <div className="border-t border-primary/20 pt-2 mt-2">
-                  <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Services</p>
-                  {serviceLinks.map((service) => (
-                    <Link
-                      key={service.path}
-                      to={service.path}
-                      className="block px-4 py-2 text-sm text-gray-400 hover:text-primary transition-colors"
-                    >
-                      {service.name}
-                    </Link>
-                  ))}
-                </div>
-                <div className="border-t border-primary/20 pt-2 mt-2">
-                  <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Support</p>
-                  <p className="px-4 py-2 text-sm text-gray-500">Coming soon</p>
-                </div>
-                <div className="border-t border-primary/20 pt-2 mt-2">
-                  <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Policies</p>
-                  {contactLinks.slice(1).map((link) => (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      className="block px-4 py-2 text-sm text-gray-400 hover:text-primary transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
-                <Link
-                  to="/consultation"
-                  className="block text-center mt-4 px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-lg"
-                >
-                  Get Started
-                </Link>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.header>
+              <Link
+                to="/consultation"
+                className="block text-center mt-4 px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-navy font-semibold rounded-lg"
+              >
+                Get Started
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content */}
       <main>{children}</main>
