@@ -14,8 +14,8 @@ export default defineConfig(({ command }) => {
   const isBuild = command === "build";
 
   return {
-    // Production site is served from /KT-N/, so set the base for correct asset URLs
-    base: "/KT-N/",
+    // With the custom domain pointing at the site root, keep asset URLs rooted at "/"
+    base: "/",
     plugins: [
       react(),
       tailwindcss(),
