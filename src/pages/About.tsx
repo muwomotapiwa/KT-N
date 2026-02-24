@@ -23,46 +23,30 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { AboutBackground } from '../components/AboutBackground';
+import cupNavy from '../assets/images/CupNavy.jpeg?url';
+import glassMug from '../assets/images/glassmug.jpeg?url';
+import notebookPen from '../assets/images/notebookandpen.jpeg?url';
+import shirtNavy from '../assets/images/t-shirtnavy.jpeg?url';
+import shirtLogo from '../assets/images/shirtblackwhitelogo.jpeg?url';
+import blackHoodie from '../assets/images/blackhoody-allbalck.jpeg?url';
+import headphonesGreen from '../assets/images/heaphonenavyandgreen.jpeg?url';
+import office1 from '../assets/images/office1.jpeg?url';
+import officeCubs from '../assets/images/officecubs.jpeg?url';
 
-// Eagerly import all brand assets and map them to categories
-const imageImports = import.meta.glob('../assets/images/*.{jpeg,jpg,png}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-}) as Record<string, string>;
-
+// Trimmed to keep load light while still showing variety
 const corporateImageMeta = [
-  { file: 'glass.jpeg', category: 'Drinkware' },
-  { file: 'glassmug.jpeg', category: 'Drinkware' },
-  { file: 'CupNavy.jpeg', category: 'Drinkware' },
-  { file: 'CupNavy2.jpeg', category: 'Drinkware' },
-  { file: 'coveredmug.jpeg', category: 'Drinkware' },
-  { file: 'notebookandpennavy.jpeg', category: 'Stationery' },
-  { file: 'notebookandpen.jpeg', category: 'Stationery' },
-  { file: 't-shirtwhite.jpeg', category: 'Apparel' },
-  { file: 't-shirtnavy.jpeg', category: 'Apparel' },
-  { file: 't-shirtblack.jpeg', category: 'Apparel' },
-  { file: 'longslivetshirt.jpeg', category: 'Apparel' },
-  { file: 'shirtgrey.jpeg', category: 'Apparel' },
-  { file: 'shirtblack.jpeg', category: 'Apparel' },
-  { file: 'shirtblackwhitelogo.jpeg', category: 'Apparel' },
-  { file: 'blackhoody-allbalck.jpeg', category: 'Apparel' },
-  { file: 'blackhoody-allbalckv2.jpeg', category: 'Apparel' },
-  { file: 'blackhoody-allbalckv3.jpeg', category: 'Apparel' },
-  { file: 'greenandnavyhoody.png', category: 'Apparel' },
-  { file: 'heaphonenavyandgreen.jpeg', category: 'Tech' },
-  { file: 'heaphoneblack.jpeg', category: 'Tech' },
-  { file: 'office1.jpeg', category: 'Tech' },
-  { file: 'office2.jpeg', category: 'Tech' },
-  { file: 'officecubs.jpeg', category: 'Tech' },
-  { file: 'offcecubs2.jpeg', category: 'Tech' },
-  { file: 'passage.jpeg', category: 'Tech' },
+  { src: cupNavy, category: 'Drinkware' },
+  { src: glassMug, category: 'Drinkware' },
+  { src: notebookPen, category: 'Stationery' },
+  { src: shirtNavy, category: 'Apparel' },
+  { src: shirtLogo, category: 'Apparel' },
+  { src: blackHoodie, category: 'Apparel' },
+  { src: headphonesGreen, category: 'Tech' },
+  { src: office1, category: 'Tech' },
+  { src: officeCubs, category: 'Tech' },
 ];
 
-const corporateImages = corporateImageMeta.map(({ file, category }) => ({
-  src: imageImports[`../assets/images/${file}`] ?? '/placeholder.jpg',
-  category,
-}));
+const corporateImages = corporateImageMeta;
 
 const stats = [
   { value: '100+', label: 'Projects Delivered' },
