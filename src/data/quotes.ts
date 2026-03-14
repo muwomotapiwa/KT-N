@@ -30,7 +30,7 @@ const baseConfigs: CountryConfig[] = [
     name: 'International',
     currency: 'USD',
     currencySymbol: '$',
-    whatsappNumber: '27715731602',
+    whatsappNumber: '27695199968',
     packages: [
       { id: 'starter', name: 'Starter', minPages: 1, maxPages: 3, basePrice: 300, features: ['1-3 Pages', '6 Months Hosting', 'Contact Form', 'Mobile Responsive', 'Basic SEO'] },
       { id: 'standard', name: 'Standard', minPages: 4, maxPages: 6, basePrice: 600, features: ['4-6 Pages', '12 Months Hosting', 'Contact Form', 'Social Links', 'SEO Basics', 'Analytics'] },
@@ -51,7 +51,7 @@ const baseConfigs: CountryConfig[] = [
     name: 'Zimbabwe',
     currency: 'USD',
     currencySymbol: '$',
-    whatsappNumber: '27715731602',
+    whatsappNumber: '27695199968',
     packages: [
       { id: 'starter', name: 'Starter', minPages: 1, maxPages: 3, basePrice: 150, features: ['1-3 Pages', '6 Months Hosting', 'Contact Form', 'Mobile Responsive', 'Basic SEO'] },
       { id: 'standard', name: 'Standard', minPages: 4, maxPages: 6, basePrice: 300, features: ['4-6 Pages', '12 Months Hosting', 'Contact Form', 'Social Links', 'SEO Basics', 'Analytics'] },
@@ -72,7 +72,7 @@ const baseConfigs: CountryConfig[] = [
     name: 'South Africa',
     currency: 'ZAR',
     currencySymbol: 'R',
-    whatsappNumber: '27715731602',
+    whatsappNumber: '27695199968',
     packages: [
       { id: 'starter', name: 'Starter', minPages: 1, maxPages: 3, basePrice: 2500, features: ['1-3 Pages', '6 Months Hosting', 'Contact Form', 'Mobile Responsive', 'Basic SEO'] },
       { id: 'standard', name: 'Standard', minPages: 4, maxPages: 6, basePrice: 5000, features: ['4-6 Pages', '12 Months Hosting', 'Contact Form', 'Social Links', 'SEO Basics', 'Analytics'] },
@@ -93,7 +93,7 @@ const baseConfigs: CountryConfig[] = [
     name: 'Zambia',
     currency: 'ZMW',
     currencySymbol: 'K',
-    whatsappNumber: '27715731602',
+    whatsappNumber: '27695199968',
     packages: [
       { id: 'starter', name: 'Starter', minPages: 1, maxPages: 3, basePrice: 3500, features: ['1-3 Pages', '6 Months Hosting', 'Contact Form', 'Mobile Responsive', 'Basic SEO'] },
       { id: 'standard', name: 'Standard', minPages: 4, maxPages: 6, basePrice: 7000, features: ['4-6 Pages', '12 Months Hosting', 'Contact Form', 'Social Links', 'SEO Basics', 'Analytics'] },
@@ -114,7 +114,7 @@ const baseConfigs: CountryConfig[] = [
     name: 'Botswana',
     currency: 'BWP',
     currencySymbol: 'P',
-    whatsappNumber: '27715731602',
+    whatsappNumber: '27695199968',
     packages: [
       { id: 'starter', name: 'Starter', minPages: 1, maxPages: 3, basePrice: 2000, features: ['1-3 Pages', '6 Months Hosting', 'Contact Form', 'Mobile Responsive', 'Basic SEO'] },
       { id: 'standard', name: 'Standard', minPages: 4, maxPages: 6, basePrice: 4000, features: ['4-6 Pages', '12 Months Hosting', 'Contact Form', 'Social Links', 'SEO Basics', 'Analytics'] },

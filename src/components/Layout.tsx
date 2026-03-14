@@ -386,7 +386,7 @@ export function Layout({ children }: LayoutProps) {
 
       {/* Floating WhatsApp Button */}
       <motion.a
-        href="https://wa.me/27715731602"
+        href="https://wa.me/27695199968"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-8 left-8 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30 hover:scale-110 transition-transform z-50"

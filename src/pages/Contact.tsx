@@ -97,7 +97,7 @@ export function Contact() {
               <LinkButton to="/consultation" label="Book Strategy Session" variant="primary" />
               <LinkButton to="#brief" label="Submit Strategic Brief" variant="outline" />
               <a
-                href="https://wa.me/27715731602"
+                href="https://wa.me/27695199968"
                 className="flex items-center gap-2 px-4 py-3 rounded-lg bg-green-500/15 text-green-400 border border-green-500/30 hover:border-green-400 transition-colors text-sm"
               >
                 <MessageSquare className="w-4 h-4" />
