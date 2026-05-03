@@ -1,9 +1,10 @@
 import { useState, BaseSyntheticEvent, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Clock, Send, ShieldCheck, AlertTriangle, Zap, MessageSquare, Globe } from 'lucide-react';
+import { Mail, Clock, Send, ShieldCheck, AlertTriangle, Zap, MessageSquare, Globe, Phone } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { ContactBackground } from '../components/ContactBackground';
+import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_URL, WHATSAPP_URL } from '../data/contact';
 
 interface FormData {
   fullName: string;
@@ -97,11 +98,18 @@ export function Contact() {
               <LinkButton to="/consultation" label="Book Strategy Session" variant="primary" />
               <LinkButton to="#brief" label="Submit Strategic Brief" variant="outline" />
               <a
-                href="https://wa.me/27695199968"
+                href={WHATSAPP_URL}
                 className="flex items-center gap-2 px-4 py-3 rounded-lg bg-green-500/15 text-green-400 border border-green-500/30 hover:border-green-400 transition-colors text-sm"
               >
                 <MessageSquare className="w-4 h-4" />
                 Chat on WhatsApp
+              </a>
+              <a
+                href={CONTACT_PHONE_URL}
+                className="flex items-center gap-2 px-4 py-3 rounded-lg bg-primary/10 text-primary border border-primary/30 hover:border-primary transition-colors text-sm"
+              >
+                <Phone className="w-4 h-4" />
+                {CONTACT_PHONE_DISPLAY}
               </a>
             </div>
           </motion.div>

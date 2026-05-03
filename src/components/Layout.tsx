@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, Mail, Facebook, Twitter, Linkedin, Instagram, ArrowUp } from 'lucide-react';
+import { Menu, X, ChevronDown, Mail, Phone, Facebook, Twitter, Linkedin, Instagram, ArrowUp } from 'lucide-react';
+import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_URL, WHATSAPP_URL } from '../data/contact';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -325,6 +326,10 @@ export function Layout({ children }: LayoutProps) {
                   <Mail className="w-5 h-5 text-primary" />
                   <a href="mailto:infor@kypextech.co.za" className="hover:text-primary transition-colors">infor@kypextech.co.za</a>
                 </li>
+                <li className="flex items-center gap-3 text-gray-400 text-sm">
+                  <Phone className="w-5 h-5 text-primary" />
+                  <a href={CONTACT_PHONE_URL} className="hover:text-primary transition-colors">{CONTACT_PHONE_DISPLAY}</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -386,7 +391,7 @@ export function Layout({ children }: LayoutProps) {
 
       {/* Floating WhatsApp Button */}
       <motion.a
-        href="https://wa.me/27695199968"
+        href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-8 left-8 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30 hover:scale-110 transition-transform z-50"
