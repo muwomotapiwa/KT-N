@@ -1,0 +1,20 @@
+{
+  "name": "Kypex-Tech Solutions",
+  "short_name": "Kypex-Tech",
+  "description": "Innovative IT solutions for AI, cloud, cybersecurity, web and mobile development, and IT consulting.",
+  "icons": [
+    {
+      "src": "/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#011f44",
+  "background_color": "#011f44",
+  "display": "standalone"
+}
