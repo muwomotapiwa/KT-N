@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Users, Cloud, Zap, TrendingUp, Settings, BarChart, ArrowRight, Check, Star, Building2, Rocket } from 'lucide-react';
+import { getSalesforcePlatformPath, salesforcePlatforms } from '../../data/salesforcePlatforms';
 
 // Enterprise CRMs
 const enterpriseCRMs = [
@@ -8,13 +9,10 @@ const enterpriseCRMs = [
     name: 'Salesforce',
     description: 'The world\'s #1 CRM platform with comprehensive cloud solutions for every business need.',
     featured: true,
-    products: [
-      { name: 'Sales Cloud', description: 'Accelerate sales with AI-powered insights and automation' },
-      { name: 'Service Cloud', description: 'Deliver exceptional customer service at scale' },
-      { name: 'Marketing Cloud', description: 'Personalized marketing journeys across all channels' },
-      { name: 'Experience Cloud', description: 'Build connected digital experiences' },
-      { name: 'Commerce Cloud', description: 'Unified commerce for B2B and B2C' },
-    ],
+    products: salesforcePlatforms.map((platform) => ({
+      name: platform.name,
+      description: platform.shortDescription,
+    })),
     color: 'from-blue-500 to-blue-600',
   },
   {
@@ -192,29 +190,33 @@ export function CloudCRM() {
             <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">
-                  Complete Salesforce Cloud Suite
+                  Complete Salesforce Platform Suite
                 </h3>
                 <p className="text-gray-300 mb-8">
-                  We implement, customize, and optimize all Salesforce Cloud products to help you build stronger customer relationships and accelerate business growth.
+                  We implement, customize, and optimize the core Salesforce platforms to help you build stronger customer relationships and accelerate business growth.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {enterpriseCRMs[0].products.map((product, index) => (
-                    <motion.div
-                      key={product.name}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-start gap-3 p-4 bg-navy/50 rounded-xl border border-blue-500/20"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                        <Cloud className="w-4 h-4 text-blue-400" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-white">{product.name}</div>
-                        <div className="text-sm text-gray-400">{product.description}</div>
-                      </div>
-                    </motion.div>
+                  {salesforcePlatforms.map((product, index) => (
+                    <Link key={product.slug} to={getSalesforcePlatformPath(product.slug)} className="block h-full">
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                        className="group flex h-full items-start gap-3 p-4 bg-navy/50 rounded-xl border border-blue-500/20 hover:border-primary/60 hover:bg-navy/70 transition-all"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                          <Cloud className="w-4 h-4 text-blue-400" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2 font-semibold text-white group-hover:text-primary transition-colors">
+                            <span>{product.name}</span>
+                            <ArrowRight className="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                          </div>
+                          <div className="text-sm text-gray-400">{product.shortDescription}</div>
+                        </div>
+                      </motion.div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -427,8 +429,8 @@ export function CloudCRM() {
               </div>
               <div className="space-y-4 pt-8">
                 <div className="p-6 bg-navy-light border border-primary/20 rounded-2xl">
-                  <div className="text-4xl font-bold text-primary mb-2">5+</div>
-                  <div className="text-gray-400">CRM Platforms</div>
+                  <div className="text-4xl font-bold text-primary mb-2">7</div>
+                  <div className="text-gray-400">Salesforce Platforms</div>
                 </div>
                 <div className="p-6 bg-navy-light border border-primary/20 rounded-2xl">
                   <div className="text-4xl font-bold text-primary mb-2">24/7</div>

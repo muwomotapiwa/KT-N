@@ -7,6 +7,7 @@ import { WebsiteDevelopment } from './pages/services/WebsiteDevelopment';
 import { MobileAppDevelopment } from './pages/services/MobileAppDevelopment';
 import { CloudServices } from './pages/services/CloudServices';
 import { CloudCRM } from './pages/services/CloudCRM';
+import { SalesforcePlatformPage } from './pages/services/SalesforcePlatform';
 import { Cybersecurity } from './pages/services/Cybersecurity';
 import { ITConsulting } from './pages/services/ITConsulting';
 import { DataAnalytics } from './pages/services/DataAnalytics';
@@ -83,6 +84,7 @@ export function App() {
                 <Route path="/services/mobile-app-development" element={<MobileAppDevelopment />} />
                 <Route path="/services/cloud-services" element={<CloudServices />} />
                 <Route path="/services/cloud-services/crm" element={<CloudCRM />} />
+                <Route path="/services/cloud-services/crm/:platformSlug" element={<SalesforcePlatformPage />} />
                 <Route path="/services/cloud-services/:subpage" element={<CloudSubpage />} />
                 <Route path="/services/cybersecurity" element={<Cybersecurity />} />
                 <Route path="/services/it-consulting" element={<ITConsulting />} />
