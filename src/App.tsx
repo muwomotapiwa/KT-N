@@ -33,7 +33,7 @@ function ScrollToHash() {
   
   useEffect(() => {
     if (location.hash) {
-      const element = document.querySelector(location.hash);
+      const element = document.getElementById(decodeURIComponent(location.hash.slice(1)));
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: 'smooth' });
