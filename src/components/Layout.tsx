@@ -13,6 +13,7 @@ const navLinks = [
   { name: 'AI Solutions', path: '/ai-solutioning' },
   { name: 'Services', path: '/#services' },
   { name: 'Portfolio', path: '/portfolio' },
+  { name: 'Blog', path: '/blog' },
   { name: 'About', path: '/about' },
   { name: 'Contact', path: '/contact', hasDropdown: true },
 ];
@@ -311,6 +312,7 @@ export function Layout({ children }: LayoutProps) {
                 <li><Link to="/assessment" className="text-gray-400 hover:text-primary text-sm transition-colors">Free Security Assessment</Link></li>
                 <li><Link to="/consultation" className="text-gray-400 hover:text-primary text-sm transition-colors">Free Consultation</Link></li>
                 <li><Link to="/project-start" className="text-gray-400 hover:text-primary text-sm transition-colors">Start a Project</Link></li>
+                <li><Link to="/blog" className="text-gray-400 hover:text-primary text-sm transition-colors">Blog</Link></li>
                 <li><Link to="/portfolio" className="text-gray-400 hover:text-primary text-sm transition-colors">Our Work</Link></li>
                 <li><Link to="/about" className="text-gray-400 hover:text-primary text-sm transition-colors">About Us</Link></li>
                 <li><Link to="/privacy" className="text-gray-400 hover:text-primary text-sm transition-colors">Privacy Policy</Link></li>

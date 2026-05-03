@@ -15,6 +15,7 @@ import { GenericService } from './pages/services/GenericService';
 import { Consultation } from './pages/Consultation';
 import { Contact } from './pages/Contact';
 import { Portfolio } from './pages/Portfolio';
+import { BlogIndex, BlogPostPage } from './pages/Blog';
 import { QuoteCalculator } from './pages/QuoteCalculator';
 import { ProjectStart } from './pages/ProjectStart';
 import { Assessment } from './pages/Assessment';
@@ -68,6 +69,8 @@ export function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/ai-solutioning" element={<AISolutioning />} />
                 <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/blog" element={<BlogIndex />} />
+                <Route path="/blog/:slug" element={<BlogPostPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/thank-you" element={<ThankYou />} />
