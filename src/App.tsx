@@ -22,6 +22,7 @@ import { Assessment } from './pages/Assessment';
 import { ThankYou } from './pages/ThankYou';
 import SupportPortal from './pages/SupportPortal';
 import AdminPortal from './pages/AdminPortal';
+import { ECDiscovery } from './pages/ECDiscovery';
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
 
@@ -59,6 +60,9 @@ export function App() {
         <Route path="/support" element={<SupportPortal />} />
         {/* Admin Portal - outside Layout for full-width workspace */}
         <Route path="/admin" element={<AdminPortal />} />
+        {/* Hidden discovery form - reachable by direct URL only */}
+        <Route path="/eC_d" element={<ECDiscovery />} />
+        <Route path="/ec-d" element={<ECDiscovery />} />
         
         {/* All other routes with Layout */}
         <Route path="/*" element={
