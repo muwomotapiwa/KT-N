@@ -234,8 +234,8 @@ const discoverySections: DiscoverySection[] = [
         label: "Is there a website/app that has the 'exact vibe' you want?",
         name: 'vibe_site',
         kind: 'input',
-        inputType: 'url',
-        placeholder: 'URL of a site that matches the look and feel you want',
+        inputType: 'text',
+        placeholder: 'e.g., www.kypextech.co.za or https://kypextech.co.za',
       },
     ],
   },
@@ -1112,6 +1112,7 @@ function FormSection({ title, children }: { title: string; children: ReactNode }
 
 function FieldRenderer({ field }: { field: DiscoveryField }) {
   const className = `ec-discovery__field ${field.compact ? 'ec-discovery__field--compact' : ''}`;
+  const isWebsiteField = field.name === 'vibe_site';
 
   return (
     <div className={className}>
@@ -1126,6 +1127,9 @@ function FieldRenderer({ field }: { field: DiscoveryField }) {
           placeholder={field.placeholder}
           required={field.required}
           min={field.min}
+          inputMode={isWebsiteField ? 'url' : undefined}
+          autoCapitalize={isWebsiteField ? 'none' : undefined}
+          autoCorrect={isWebsiteField ? 'off' : undefined}
         />
       )}
       {field.kind === 'select' && (
