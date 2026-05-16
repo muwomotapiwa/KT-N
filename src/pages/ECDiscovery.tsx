@@ -1006,18 +1006,30 @@ function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
     setSubmitError('');
 
     const formData = new FormData(form);
-    const payload: Record<string, string | string[]> = {};
+    const answeredQuestions = discoverySections.flatMap((section) =>
+      section.fields.flatMap((field) => {
+        const values = formData
+          .getAll(field.name)
+          .map((value) => value.toString().trim())
+          .filter(Boolean);
 
-    formData.forEach((value, key) => {
-      const nextValue = value.toString();
-      const existingValue = payload[key];
+        if (!values.length) return [];
 
-      if (Array.isArray(existingValue)) {
-        existingValue.push(nextValue);
-      } else if (typeof existingValue === 'string') {
-        payload[key] = [existingValue, nextValue];
-      } else {
-        payload[key] = nextValue;
+        return [`${section.title}\n${field.badge} - ${field.label}\n${values.join(', ')}`];
+      }),
+    );
+    const payload: Record<string, string> = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: 'New E-Commerce Discovery Form Submission',
+      from_name: 'Kypex-Tech Discovery Form',
+      form_name: 'E-Commerce Discovery Form',
+      message: answeredQuestions.join('\n\n'),
+    };
+
+    ['client_name', 'company_name', 'email', 'phone'].forEach((fieldName) => {
+      const fieldValue = formData.get(fieldName)?.toString().trim();
+      if (fieldValue) {
+        payload[fieldName] = fieldValue;
       }
     });
 
