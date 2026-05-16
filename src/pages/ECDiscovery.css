@@ -352,9 +352,18 @@
 }
 
 .ec-discovery__botcheck {
-  position: absolute;
-  left: -9999px;
-  opacity: 0;
+  display: none;
+}
+
+.ec-discovery__error {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 95, 87, 0.38);
+  border-radius: 8px;
+  background: rgba(255, 95, 87, 0.12);
+  color: #ffd6d2;
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 .ec-discovery__success {

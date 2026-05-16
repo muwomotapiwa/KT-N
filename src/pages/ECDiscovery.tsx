@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import './ECDiscovery.css';
 
 type FieldOption = {
@@ -25,6 +25,7 @@ type DiscoverySection = {
 };
 
 const WEB3FORMS_ACCESS_KEY = 'af31cdca-fdb5-4fd7-81bd-762838f8e47f';
+const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 
 const discoverySections: DiscoverySection[] = [
   {
@@ -903,7 +904,7 @@ export function ECDiscovery() {
   return (
     <div className="ec-discovery">
       {!showForm && !formSubmitted && <LandingOverlay onProceed={() => setShowForm(true)} />}
-      {showForm && !formSubmitted && <DiscoveryForm onSubmitStart={() => setFormSubmitted(false)} />}
+      {showForm && !formSubmitted && <DiscoveryForm onSubmitted={() => setFormSubmitted(true)} />}
       {formSubmitted && <SuccessScreen onStartOver={() => {
         setFormSubmitted(false);
         setShowForm(true);
@@ -955,15 +956,11 @@ function LogoMark() {
   );
 }
 
-function DiscoveryForm({ onSubmitStart }: { onSubmitStart: () => void }) {
+function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
   const [progress, setProgress] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
-  const redirectUrl = useMemo(() => {
-    if (typeof window === 'undefined') return '/eC_d?submitted=1';
-    const basePath = window.location.pathname.startsWith('/KT-N') ? '/KT-N' : '';
-    return `${window.location.origin}${basePath}/eC_d?submitted=1`;
-  }, []);
 
   useEffect(() => {
     const form = formRef.current;
@@ -1002,9 +999,50 @@ function DiscoveryForm({ onSubmitStart }: { onSubmitStart: () => void }) {
     };
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
     setIsSubmitting(true);
-    onSubmitStart();
+    setSubmitError('');
+
+    const formData = new FormData(form);
+    const payload: Record<string, string | string[]> = {};
+
+    formData.forEach((value, key) => {
+      const nextValue = value.toString();
+      const existingValue = payload[key];
+
+      if (Array.isArray(existingValue)) {
+        existingValue.push(nextValue);
+      } else if (typeof existingValue === 'string') {
+        payload[key] = [existingValue, nextValue];
+      } else {
+        payload[key] = nextValue;
+      }
+    });
+
+    try {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'The form could not be submitted. Please try again.');
+      }
+
+      form.reset();
+      onSubmitted();
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'The form could not be submitted. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -1019,15 +1057,14 @@ function DiscoveryForm({ onSubmitStart }: { onSubmitStart: () => void }) {
 
         <form
           ref={formRef}
-          action="https://api.web3forms.com/submit"
           method="POST"
           onSubmit={handleSubmit}
           className="ec-discovery__form"
         >
           <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
           <input type="hidden" name="subject" value="New E-Commerce Discovery Form Submission" />
+          <input type="hidden" name="from_name" value="Kypex-Tech Discovery Form" />
           <input type="hidden" name="form_name" value="E-Commerce Discovery Form" />
-          <input type="hidden" name="redirect" value={redirectUrl} />
           <input type="checkbox" name="botcheck" className="ec-discovery__botcheck" tabIndex={-1} autoComplete="off" />
 
           {discoverySections.map((section) => (
@@ -1041,6 +1078,11 @@ function DiscoveryForm({ onSubmitStart }: { onSubmitStart: () => void }) {
           <button type="submit" className="ec-discovery__submit" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Submit Questionnaire'}
           </button>
+          {submitError && (
+            <p className="ec-discovery__error" role="alert">
+              {submitError}
+            </p>
+          )}
         </form>
       </div>
     </div>
@@ -1107,7 +1149,8 @@ function SuccessScreen({ onStartOver }: { onStartOver: () => void }) {
 
     const typeInterval = window.setInterval(() => {
       if (charIndex < textToType.length) {
-        setTypedText((previous) => previous + textToType.charAt(charIndex));
+        const nextCharacter = textToType.charAt(charIndex);
+        setTypedText((previous) => previous + nextCharacter);
         charIndex += 1;
       } else {
         window.clearInterval(typeInterval);
