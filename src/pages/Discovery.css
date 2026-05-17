@@ -1,0 +1,45 @@
+@import './ECDiscovery.css';
+
+.ec-discovery__choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ec-discovery__choice {
+  min-height: 76px;
+  padding: 16px 18px;
+  border: 1px solid rgba(139, 199, 207, 0.35);
+  border-radius: 8px;
+  background: rgba(5, 16, 34, 0.86);
+  color: #e8f9fb;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ec-discovery__choice:hover,
+.ec-discovery__choice:focus-visible {
+  border-color: var(--ec-primary);
+  background: rgba(7, 31, 63, 0.95);
+  box-shadow: 0 0 0 3px rgba(52, 217, 185, 0.14);
+  outline: none;
+}
+
+.ec-discovery__choice.is-selected {
+  border-color: rgba(52, 217, 185, 0.85);
+  background: linear-gradient(135deg, rgba(52, 217, 185, 0.95), rgba(4, 169, 176, 0.95));
+  color: var(--ec-dark);
+  box-shadow: 0 12px 30px rgba(52, 217, 185, 0.22);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+  .ec-discovery__choice-grid {
+    grid-template-columns: 1fr;
+  }
+}

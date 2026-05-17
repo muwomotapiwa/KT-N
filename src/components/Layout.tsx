@@ -20,6 +20,7 @@ const navLinks = [
 
 const contactLinks = [
   { name: 'Contact Us', path: '/contact' },
+  { name: 'Discovery Form', path: '/discovery' },
   { name: 'Privacy Policy', path: '/privacy' },
   { name: 'Terms of Service', path: '/terms' },
 ];
@@ -239,7 +240,7 @@ export function Layout({ children }: LayoutProps) {
               </div>
               <div className="border-t border-primary/20 pt-2 mt-2">
                 <p className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Policies</p>
-                {contactLinks.slice(1).map((link) => (
+                {contactLinks.filter((link) => link.path === '/privacy' || link.path === '/terms').map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
@@ -311,6 +312,7 @@ export function Layout({ children }: LayoutProps) {
               <ul className="space-y-3">
                 <li><Link to="/assessment" className="text-gray-400 hover:text-primary text-sm transition-colors">Free Security Assessment</Link></li>
                 <li><Link to="/consultation" className="text-gray-400 hover:text-primary text-sm transition-colors">Free Consultation</Link></li>
+                <li><Link to="/discovery" className="text-gray-400 hover:text-primary text-sm transition-colors">Discovery Form</Link></li>
                 <li><Link to="/project-start" className="text-gray-400 hover:text-primary text-sm transition-colors">Start a Project</Link></li>
                 <li><Link to="/blog" className="text-gray-400 hover:text-primary text-sm transition-colors">Blog</Link></li>
                 <li><Link to="/portfolio" className="text-gray-400 hover:text-primary text-sm transition-colors">Our Work</Link></li>

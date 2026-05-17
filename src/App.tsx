@@ -23,6 +23,7 @@ import { ThankYou } from './pages/ThankYou';
 import SupportPortal from './pages/SupportPortal';
 import AdminPortal from './pages/AdminPortal';
 import { ECDiscovery } from './pages/ECDiscovery';
+import { Discovery } from './pages/Discovery';
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
 
@@ -63,6 +64,7 @@ export function App() {
         {/* Hidden discovery form - reachable by direct URL only */}
         <Route path="/eC_d" element={<ECDiscovery />} />
         <Route path="/ec-d" element={<ECDiscovery />} />
+        <Route path="/discovery" element={<Discovery />} />
         
         {/* All other routes with Layout */}
         <Route path="/*" element={
