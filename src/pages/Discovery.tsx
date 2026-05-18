@@ -19,6 +19,14 @@ type DiscoveryField = {
   compact?: boolean;
 };
 
+type NumberedDiscoveryField = DiscoveryField & {
+  displayBadge: string;
+};
+
+type NumberedDiscoverySection = Omit<DiscoverySection, 'fields'> & {
+  fields: NumberedDiscoveryField[];
+};
+
 type SectionAudience = 'selector' | 'common' | 'website' | 'mobile' | 'ecommerce';
 
 type DiscoverySection = {
@@ -1564,6 +1572,22 @@ function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
     [projectType, websiteType],
   );
 
+  const numberedSections = useMemo<NumberedDiscoverySection[]>(() => {
+    let questionNumber = 0;
+
+    return visibleSections.map((section) => ({
+      ...section,
+      fields: section.fields.map((field) => {
+        questionNumber += 1;
+
+        return {
+          ...field,
+          displayBadge: String(questionNumber).padStart(2, '0'),
+        };
+      }),
+    }));
+  }, [visibleSections]);
+
   useEffect(() => {
     const form = formRef.current;
     if (!form) return;
@@ -1623,7 +1647,7 @@ function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
     setIsSubmitting(true);
     setSubmitError('');
 
-    const answeredQuestions = visibleSections.flatMap((section) =>
+    const answeredQuestions = numberedSections.flatMap((section) =>
       section.fields.flatMap((field) => {
         const values = formData
           .getAll(field.name)
@@ -1633,7 +1657,7 @@ function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
 
         if (!values.length) return [];
 
-        return [`${section.title}\n${field.badge} - ${field.label}\n${values.join(', ')}`];
+        return [`${section.title}\nQuestion ${field.displayBadge} - ${field.label}\n${values.join(', ')}`];
       }),
     );
 
@@ -1700,7 +1724,7 @@ function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
           <input type="hidden" name="form_name" value="Mobile & Website Discovery Form" />
           <input type="checkbox" name="botcheck" className="ec-discovery__botcheck" tabIndex={-1} autoComplete="off" />
 
-          {visibleSections.map((section) => (
+          {numberedSections.map((section) => (
             <FormSection title={section.title} key={section.title}>
               {section.fields.map((field) => (
                 <FieldRenderer
@@ -1747,7 +1771,7 @@ function FieldRenderer({
   projectTypeValue,
   websiteTypeValue,
 }: {
-  field: DiscoveryField;
+  field: NumberedDiscoveryField;
   onProjectTypeChange: (value: ProjectType) => void;
   onWebsiteTypeChange: (value: string) => void;
   projectTypeValue: ProjectType;
@@ -1769,10 +1793,14 @@ function FieldRenderer({
 
   return (
     <div className={className}>
-      <div className="ec-discovery__badge">{field.badge}</div>
-      <label id={`${field.name}-label`} htmlFor={field.name}>
-        {field.label}
-      </label>
+      <div className="ec-discovery__question-heading">
+        <div className="ec-discovery__badge" aria-hidden="true">
+          {field.displayBadge}
+        </div>
+        <label id={`${field.name}-label`} htmlFor={field.name}>
+          {field.label}
+        </label>
+      </div>
       {field.kind === 'project-type' && (
         <>
           <input type="hidden" name={field.name} value={projectTypeValue} />
