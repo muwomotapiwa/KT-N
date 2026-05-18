@@ -10,7 +10,7 @@ type DiscoveryField = {
   badge: string;
   label: string;
   name: string;
-  kind: 'input' | 'textarea' | 'select' | 'checkbox' | 'file';
+  kind: 'input' | 'textarea' | 'select' | 'checkbox';
   inputType?: string;
   placeholder?: string;
   required?: boolean;
@@ -29,6 +29,33 @@ type DiscoverySection = {
 
 const WEB3FORMS_ACCESS_KEY = 'af31cdca-fdb5-4fd7-81bd-762838f8e47f';
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+const requiredContactFieldNames = new Set(['client_name', 'company_name', 'email', 'phone']);
+
+const placeholderByFieldName: Record<string, string> = {
+  client_name: 'e.g., Thando Mokoena',
+  company_name: 'e.g., Bloom & Co Online Store',
+  email: 'e.g., thando@company.co.za',
+  phone: 'e.g., +27 82 123 4567',
+  final_decision_maker: 'e.g., Same as above, or Nomsa - CEO',
+  day_to_day_contact: 'e.g., Same as above, or Sipho - Marketing Manager',
+  content_provider: 'e.g., Client team, agency, supplier, or Kypex-Tech',
+  store_manager: 'e.g., Store owner, operations manager, or not decided yet',
+  current_store_problem: 'e.g., Slow checkout, difficult product updates, poor mobile UX',
+  launch_must_work: 'e.g., Fast checkout, payment gateway, stock sync, courier rates',
+  seasonal_factors: 'e.g., Black Friday, December rush, market launch, or none',
+  primary_customer: 'e.g., Busy parents in Johannesburg buying weekly essentials on mobile',
+  customer_locations: 'e.g., South Africa nationwide, Gauteng only, or international',
+  brand_fonts: 'e.g., Montserrat for headings, Inter for body text',
+  visual_do_not_want: 'e.g., No dark backgrounds, no neon colours, no cluttered layouts',
+  product_categories: 'e.g., Skincare, accessories, digital downloads, gift bundles',
+  variation_types: 'e.g., Size, colour, scent, material, pack size',
+  shipping_origin: 'e.g., Cape Town, South Africa',
+  preferred_couriers: 'e.g., The Courier Guy, Bob Go, Pargo, local pickup',
+  return_refund_policy: 'e.g., 7-day returns on unused products, exchanges only, or not drafted yet',
+  admin_access_people: 'e.g., Owner - full access; warehouse team - orders only',
+  other_integrations: 'e.g., WhatsApp, ERP, POS, inventory tool, supplier feed, or none',
+  domain_registrar: 'e.g., GoDaddy, Domains.co.za, xneelo, Cloudflare',
+};
 
 const discoverySections: DiscoverySection[] = [
   {
@@ -254,12 +281,13 @@ const discoverySections: DiscoverySection[] = [
       },
       {
         badge: '4.2',
-        label: 'Upload your logo',
-        name: 'logo_upload',
-        kind: 'file',
+        label: 'Logo share link',
+        name: 'logo_share_link',
+        kind: 'input',
+        inputType: 'url',
         compact: true,
-        helper: 'Required if 4.1 = Yes.',
-        accept: '.ai,.eps,.svg,.png,.jpg,.jpeg,.webp,.pdf',
+        helper: 'Optional: paste a Google Drive, OneDrive, Dropbox, or website link if you have one.',
+        placeholder: 'e.g., https://drive.google.com/...',
       },
       {
         badge: '4.3',
@@ -319,12 +347,13 @@ const discoverySections: DiscoverySection[] = [
       },
       {
         badge: '4.8',
-        label: 'Upload brand style guide',
-        name: 'style_guide_upload',
-        kind: 'file',
+        label: 'Brand style guide share link',
+        name: 'style_guide_share_link',
+        kind: 'input',
+        inputType: 'url',
         compact: true,
-        helper: 'Required if 4.7 = Yes.',
-        accept: '.pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg,.webp',
+        helper: 'Optional: paste a shared document or folder link if you have one.',
+        placeholder: 'e.g., https://www.dropbox.com/...',
       },
       {
         badge: '4.9',
@@ -1007,7 +1036,13 @@ const discoverySections: DiscoverySection[] = [
       },
     ],
   },
-];
+].map((section) => ({
+  ...section,
+  fields: section.fields.map((field) => ({
+    ...field,
+    required: requiredContactFieldNames.has(field.name),
+  })),
+}));
 
 function formatFileSize(size: number) {
   if (size < 1024) return `${size} B`;
@@ -1024,24 +1059,30 @@ function formatFormValue(value: FormDataEntryValue) {
   return '';
 }
 
-function getFileInput(form: HTMLFormElement, name: string) {
-  const element = form.elements.namedItem(name);
-  return element instanceof HTMLInputElement ? element : null;
+function getFieldPlaceholder(field: DiscoveryField) {
+  return field.placeholder ?? placeholderByFieldName[field.name] ?? 'Leave blank if you are not sure yet.';
+}
+
+function getFieldHelper(field: DiscoveryField) {
+  if (field.helper) {
+    return field.helper.replace(/^Required if/i, 'Add if');
+  }
+
+  return undefined;
+}
+
+function isRequiredField(field: DiscoveryField) {
+  return requiredContactFieldNames.has(field.name);
+}
+
+function isFieldAnswered(formData: FormData, field: DiscoveryField) {
+  return formData.getAll(field.name).map(formatFormValue).filter(Boolean).length > 0;
 }
 
 function getMissingRequiredField(form: HTMLFormElement, formData: FormData) {
   for (const section of discoverySections) {
     for (const field of section.fields) {
-      if (!field.required) continue;
-
-      if (field.kind === 'file') {
-        const input = getFileInput(form, field.name);
-        if (!input?.files?.length) return field;
-        continue;
-      }
-
-      const values = formData.getAll(field.name).map(formatFormValue).filter(Boolean);
-      if (!values.length) return field;
+      if (isRequiredField(field) && !isFieldAnswered(formData, field)) return field;
     }
   }
 
@@ -1139,14 +1180,7 @@ function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
 
       const formData = new FormData(form);
       const answeredQuestions = discoverySections.reduce((total, section) => {
-        const sectionAnswered = section.fields.filter((field) => {
-          if (field.kind === 'file') {
-            const input = getFileInput(form, field.name);
-            return Boolean(input?.files?.length);
-          }
-
-          return formData.getAll(field.name).map(formatFormValue).filter(Boolean).length > 0;
-        }).length;
+        const sectionAnswered = section.fields.filter((field) => isFieldAnswered(formData, field)).length;
 
         return total + sectionAnswered;
       }, 0);
@@ -1205,16 +1239,6 @@ function DiscoveryForm({ onSubmitted }: { onSubmitted: () => void }) {
       if (fieldValue) {
         payload.append(fieldName, fieldValue);
       }
-    });
-
-    discoverySections.forEach((section) => {
-      section.fields.forEach((field) => {
-        if (field.kind !== 'file') return;
-        const input = getFileInput(form, field.name);
-        Array.from(input?.files ?? []).forEach((file) => {
-          if (file.name) payload.append(field.name, file, file.name);
-        });
-      });
     });
 
     try {
@@ -1296,27 +1320,38 @@ function FormSection({ title, description, children }: { title: string; descript
 
 function FieldRenderer({ field }: { field: DiscoveryField }) {
   const className = `ec-discovery__field ${field.compact ? 'ec-discovery__field--compact' : ''}`;
+  const isRequired = isRequiredField(field);
+  const helper = getFieldHelper(field);
 
   return (
     <div className={className}>
       <div className="ec-discovery__badge">{field.badge}</div>
-      <label htmlFor={field.name}>{field.label}</label>
-      {field.kind === 'textarea' && <textarea id={field.name} name={field.name} placeholder={field.placeholder} required={field.required} />}
+      <label htmlFor={field.name}>
+        {field.label}
+        {isRequired && <span className="ec-discovery__required"> *</span>}
+      </label>
+      {field.kind === 'textarea' && (
+        <textarea
+          id={field.name}
+          name={field.name}
+          placeholder={getFieldPlaceholder(field)}
+          required={isRequired}
+          aria-required={isRequired}
+        />
+      )}
       {field.kind === 'input' && (
         <input
           id={field.name}
           type={field.inputType ?? 'text'}
           name={field.name}
-          placeholder={field.placeholder}
-          required={field.required}
+          placeholder={getFieldPlaceholder(field)}
+          required={isRequired}
+          aria-required={isRequired}
           min={field.min}
         />
       )}
-      {field.kind === 'file' && (
-        <input id={field.name} type="file" name={field.name} required={field.required} accept={field.accept} />
-      )}
       {field.kind === 'select' && (
-        <select id={field.name} name={field.name} required={field.required}>
+        <select id={field.name} name={field.name}>
           {(field.options ?? []).map((option) => (
             <option value={option.value} key={`${field.name}-${option.value}`}>
               {option.label}
@@ -1334,7 +1369,7 @@ function FieldRenderer({ field }: { field: DiscoveryField }) {
           ))}
         </div>
       )}
-      {field.helper && <p className="ec-discovery__helper">{field.helper}</p>}
+      {helper && <p className="ec-discovery__helper">{helper}</p>}
     </div>
   );
 }

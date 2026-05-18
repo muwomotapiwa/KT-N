@@ -199,13 +199,17 @@ label {
   font-weight: 500;
 }
 
+.field-required {
+  color: var(--primary);
+  font-weight: 800;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="url"],
 input[type="number"],
 input[type="date"],
 input[type="tel"],
-input[type="file"],
 textarea,
 select {
   width: 100%;
@@ -216,22 +220,6 @@ select {
   color: #fff;
   font-size: 1rem;
   transition: border-color 0.3s ease;
-}
-
-input[type="file"] {
-  padding: 10px 12px;
-}
-
-input[type="file"]::file-selector-button {
-  background: rgba(28, 237, 202, 0.18);
-  border: 0;
-  border-radius: 6px;
-  color: var(--light);
-  cursor: pointer;
-  font: inherit;
-  font-weight: 700;
-  margin-right: 12px;
-  padding: 8px 12px;
 }
 
 input:focus,

@@ -291,13 +291,17 @@
   margin: 5px 0 0;
 }
 
+.ec-discovery__required {
+  color: var(--ec-primary);
+  font-weight: 800;
+}
+
 .ec-discovery__field input[type="text"],
 .ec-discovery__field input[type="email"],
 .ec-discovery__field input[type="url"],
 .ec-discovery__field input[type="number"],
 .ec-discovery__field input[type="date"],
 .ec-discovery__field input[type="tel"],
-.ec-discovery__field input[type="file"],
 .ec-discovery__field textarea,
 .ec-discovery__field select {
   width: 100%;
@@ -321,23 +325,6 @@
 .ec-discovery__field input::placeholder,
 .ec-discovery__field textarea::placeholder {
   color: rgba(215, 230, 237, 0.45);
-}
-
-.ec-discovery__field input[type="file"] {
-  padding: 10px 12px;
-}
-
-.ec-discovery__field input[type="file"]::file-selector-button {
-  margin-right: 12px;
-  border: 0;
-  border-radius: 6px;
-  background: rgba(52, 217, 185, 0.18);
-  color: #e8f9fb;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.92rem;
-  font-weight: 700;
-  padding: 8px 12px;
 }
 
 .ec-discovery__field input:focus,
@@ -556,7 +543,6 @@
   .ec-discovery__field input[type="number"],
   .ec-discovery__field input[type="date"],
   .ec-discovery__field input[type="tel"],
-  .ec-discovery__field input[type="file"],
   .ec-discovery__field textarea,
   .ec-discovery__field select {
     font-size: 16px;

@@ -3,6 +3,33 @@ import './App.css';
 
 const WEB3FORMS_ACCESS_KEY = 'af31cdca-fdb5-4fd7-81bd-762838f8e47f';
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+const requiredContactFieldNames = new Set(['client_name', 'company_name', 'email', 'phone']);
+
+const placeholderByFieldName = {
+  client_name: 'e.g., Thando Mokoena',
+  company_name: 'e.g., Bloom & Co Online Store',
+  email: 'e.g., thando@company.co.za',
+  phone: 'e.g., +27 82 123 4567',
+  final_decision_maker: 'e.g., Same as above, or Nomsa - CEO',
+  day_to_day_contact: 'e.g., Same as above, or Sipho - Marketing Manager',
+  content_provider: 'e.g., Client team, agency, supplier, or Kypex-Tech',
+  store_manager: 'e.g., Store owner, operations manager, or not decided yet',
+  current_store_problem: 'e.g., Slow checkout, difficult product updates, poor mobile UX',
+  launch_must_work: 'e.g., Fast checkout, payment gateway, stock sync, courier rates',
+  seasonal_factors: 'e.g., Black Friday, December rush, market launch, or none',
+  primary_customer: 'e.g., Busy parents in Johannesburg buying weekly essentials on mobile',
+  customer_locations: 'e.g., South Africa nationwide, Gauteng only, or international',
+  brand_fonts: 'e.g., Montserrat for headings, Inter for body text',
+  visual_do_not_want: 'e.g., No dark backgrounds, no neon colours, no cluttered layouts',
+  product_categories: 'e.g., Skincare, accessories, digital downloads, gift bundles',
+  variation_types: 'e.g., Size, colour, scent, material, pack size',
+  shipping_origin: 'e.g., Cape Town, South Africa',
+  preferred_couriers: 'e.g., The Courier Guy, Bob Go, Pargo, local pickup',
+  return_refund_policy: 'e.g., 7-day returns on unused products, exchanges only, or not drafted yet',
+  admin_access_people: 'e.g., Owner - full access; warehouse team - orders only',
+  other_integrations: 'e.g., WhatsApp, ERP, POS, inventory tool, supplier feed, or none',
+  domain_registrar: 'e.g., GoDaddy, Domains.co.za, xneelo, Cloudflare',
+};
 
 const makeValue = (label) =>
   label
@@ -18,12 +45,11 @@ const field = (badge, label, name, kind = 'input', config = {}) => ({
   label,
   name,
   kind,
-  required: true,
+  required: false,
   ...config,
 });
 
 const text = (badge, label, name, config) => field(badge, label, name, 'textarea', config);
-const file = (badge, label, name, config) => field(badge, label, name, 'file', { required: false, ...config });
 const checkbox = (badge, label, name, choices, config) =>
   field(badge, label, name, 'checkbox', { options: options(choices), ...config });
 const select = (badge, label, name, choices, config = {}) =>
@@ -37,10 +63,10 @@ const DISCOVERY_SECTIONS = [
     title: '1. Contact & Project Basics',
     description: "Who we're working with and what we're building.",
     fields: [
-      field('1.1', 'Your full name', 'client_name', 'input', { compact: true }),
-      field('1.2', 'Company / brand name', 'company_name', 'input', { compact: true }),
-      field('1.3', 'Email address', 'email', 'input', { inputType: 'email', compact: true }),
-      field('1.4', 'Phone number', 'phone', 'input', { inputType: 'tel', compact: true }),
+      field('1.1', 'Your full name', 'client_name', 'input', { required: true, compact: true }),
+      field('1.2', 'Company / brand name', 'company_name', 'input', { required: true, compact: true }),
+      field('1.3', 'Email address', 'email', 'input', { inputType: 'email', required: true, compact: true }),
+      field('1.4', 'Phone number', 'phone', 'input', { inputType: 'tel', required: true, compact: true }),
       field('1.5', 'Who is the final decision-maker on this project?', 'final_decision_maker', 'input', { compact: true }),
       field('1.6', 'Who will be our main point of contact day-to-day?', 'day_to_day_contact', 'input', { compact: true }),
       field('1.7', 'Who will provide content (product info, images, copy)?', 'content_provider', 'input', { compact: true }),
@@ -111,10 +137,11 @@ const DISCOVERY_SECTIONS = [
         ['yes', 'Yes'],
         ['no_design_needed', 'No - we need one designed'],
       ], { compact: true }),
-      file('4.2', 'Upload your logo', 'logo_upload', {
+      field('4.2', 'Logo share link', 'logo_share_link', 'input', {
+        inputType: 'url',
         compact: true,
-        helper: 'Required if 4.1 = Yes.',
-        accept: '.ai,.eps,.svg,.png,.jpg,.jpeg,.webp,.pdf',
+        helper: 'Optional: paste a Google Drive, OneDrive, Dropbox, or website link if you have one.',
+        placeholder: 'e.g., https://drive.google.com/...',
       }),
       select('4.3', 'Do you have official brand colours?', 'has_brand_colours', ['Yes', 'No'], { compact: true }),
       field('4.4', 'If yes, provide your hex codes', 'brand_hex_codes', 'input', {
@@ -130,10 +157,11 @@ const DISCOVERY_SECTIONS = [
         helper: 'Required if 4.5 = Yes.',
       }),
       select('4.7', 'Do you have a brand style guide?', 'has_style_guide', ['Yes', 'No'], { compact: true }),
-      file('4.8', 'Upload brand style guide', 'style_guide_upload', {
+      field('4.8', 'Brand style guide share link', 'style_guide_share_link', 'input', {
+        inputType: 'url',
         compact: true,
-        helper: 'Required if 4.7 = Yes.',
-        accept: '.pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg,.webp',
+        helper: 'Optional: paste a shared document or folder link if you have one.',
+        placeholder: 'e.g., https://www.dropbox.com/...',
       }),
       text('4.9', 'Share 2-3 websites whose look and feel you admire (any industry)', 'admired_sites', {
         placeholder: 'Share links and what you like about each.',
@@ -368,13 +396,16 @@ const formatEntry = (entry) => {
   return '';
 };
 
-const getFileInput = (form, name) => {
-  const element = form.elements.namedItem(name);
-  return element instanceof HTMLInputElement ? element : null;
+const getFieldPlaceholder = (item) => item.placeholder ?? placeholderByFieldName[item.name] ?? 'Leave blank if you are not sure yet.';
+
+const getFieldHelper = (item) => {
+  if (item.helper) return item.helper.replace(/^Required if/i, 'Add if');
+  return undefined;
 };
 
-const isFieldAnswered = (form, formData, item) => {
-  if (item.kind === 'file') return Boolean(getFileInput(form, item.name)?.files?.length);
+const isFieldRequired = (item) => requiredContactFieldNames.has(item.name);
+
+const isFieldAnswered = (formData, item) => {
   return formData.getAll(item.name).map(formatEntry).filter(Boolean).length > 0;
 };
 
@@ -447,7 +478,7 @@ const DiscoveryForm = ({ onSubmit }) => {
 
     const updateProgress = () => {
       const formData = new FormData(form);
-      const answered = allFields.filter((item) => isFieldAnswered(form, formData, item)).length;
+      const answered = allFields.filter((item) => isFieldAnswered(formData, item)).length;
       setProgress((answered / allFields.length) * 100);
     };
 
@@ -465,7 +496,7 @@ const DiscoveryForm = ({ onSubmit }) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const missingField = allFields.find((item) => item.required && !isFieldAnswered(form, formData, item));
+    const missingField = allFields.find((item) => isFieldRequired(item) && !isFieldAnswered(formData, item));
 
     setIsSubmitting(true);
     setSubmitError('');
@@ -495,14 +526,6 @@ const DiscoveryForm = ({ onSubmit }) => {
       const value = formData.get(name)?.toString().trim();
       if (value) payload.append(name, value);
     });
-
-    allFields
-      .filter((item) => item.kind === 'file')
-      .forEach((item) => {
-        Array.from(getFileInput(form, item.name)?.files ?? []).forEach((upload) => {
-          if (upload.name) payload.append(item.name, upload, upload.name);
-        });
-      });
 
     try {
       const response = await fetch(WEB3FORMS_ENDPOINT, {
@@ -561,20 +584,24 @@ const DiscoveryForm = ({ onSubmit }) => {
   );
 };
 
-const FieldRenderer = ({ field: item }) => (
-  <div className={`form-group ${item.compact ? 'form-group--compact' : ''}`}>
-    <QuestionBadge num={item.badge} />
-    <Label text={item.label} htmlFor={item.name} />
-    {item.kind === 'textarea' && <Textarea name={item.name} placeholder={item.placeholder} required={item.required} />}
-    {item.kind === 'input' && (
-      <Input type={item.inputType ?? 'text'} name={item.name} placeholder={item.placeholder} required={item.required} min={item.min} />
-    )}
-    {item.kind === 'file' && <Input type="file" name={item.name} required={item.required} accept={item.accept} />}
-    {item.kind === 'select' && <Select name={item.name} options={item.options} required={item.required} />}
-    {item.kind === 'checkbox' && <CheckboxGroup name={item.name} options={item.options} />}
-    {item.helper && <p className="field-helper">{item.helper}</p>}
-  </div>
-);
+const FieldRenderer = ({ field: item }) => {
+  const required = isFieldRequired(item);
+  const helper = getFieldHelper(item);
+
+  return (
+    <div className={`form-group ${item.compact ? 'form-group--compact' : ''}`}>
+      <QuestionBadge num={item.badge} />
+      <Label text={item.label} htmlFor={item.name} required={required} />
+      {item.kind === 'textarea' && <Textarea name={item.name} placeholder={getFieldPlaceholder(item)} required={required} />}
+      {item.kind === 'input' && (
+        <Input type={item.inputType ?? 'text'} name={item.name} placeholder={getFieldPlaceholder(item)} required={required} min={item.min} />
+      )}
+      {item.kind === 'select' && <Select name={item.name} options={item.options} />}
+      {item.kind === 'checkbox' && <CheckboxGroup name={item.name} options={item.options} />}
+      {helper && <p className="field-helper">{helper}</p>}
+    </div>
+  );
+};
 
 const SuccessScreen = () => {
   const [typedText, setTypedText] = useState('');
@@ -638,16 +665,23 @@ const FormSection = ({ title, description, children }) => (
 
 const QuestionBadge = ({ num }) => <div className="question-badge">{num}</div>;
 
-const Label = ({ text, htmlFor }) => <label htmlFor={htmlFor}>{text}</label>;
-
-const Input = ({ type, name, placeholder, required, min, accept }) => (
-  <input id={name} type={type} name={name} placeholder={placeholder} required={required} min={min} accept={accept} />
+const Label = ({ text, htmlFor, required }) => (
+  <label htmlFor={htmlFor}>
+    {text}
+    {required && <span className="field-required"> *</span>}
+  </label>
 );
 
-const Textarea = ({ name, placeholder, required }) => <textarea id={name} name={name} placeholder={placeholder} required={required}></textarea>;
+const Input = ({ type, name, placeholder, required, min, accept }) => (
+  <input id={name} type={type} name={name} placeholder={placeholder} required={required} aria-required={required} min={min} accept={accept} />
+);
+
+const Textarea = ({ name, placeholder, required }) => (
+  <textarea id={name} name={name} placeholder={placeholder} required={required} aria-required={required}></textarea>
+);
 
 const Select = ({ name, options: choices, required }) => (
-  <select id={name} name={name} required={required}>
+  <select id={name} name={name} required={required} aria-required={required}>
     {choices.map((choice) => (
       <option key={`${name}-${choice.value}`} value={choice.value}>
         {choice.label}
