@@ -1156,7 +1156,7 @@ const discoverySections: DiscoverySection[] = [
         label: 'Do you have a privacy policy URL?',
         name: 'privacy_policy_url',
         kind: 'input',
-        inputType: 'url',
+        placeholder: 'e.g., www.kypextech.co.za/privacy or https://kypextech.co.za/privacy',
         compact: true,
       },
       {
